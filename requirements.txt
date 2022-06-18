@@ -6,6 +6,7 @@ Django==4.0.5
 django-debug-toolbar==3.4.0
 django-extensions==3.1.5
 executing==0.8.3
+Faker==13.13.0
 flake8==4.0.1
 ipython==8.4.0
 jedi==0.18.1
@@ -20,6 +21,7 @@ pure-eval==0.2.2
 pycodestyle==2.8.0
 pyflakes==2.4.0
 Pygments==2.12.0
+python-dateutil==2.8.2
 six==1.16.0
 sqlparse==0.4.2
 stack-data==0.3.0
