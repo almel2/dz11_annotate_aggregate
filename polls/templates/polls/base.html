@@ -5,13 +5,15 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-<h2><navi>
-    <a href=""> Home </a> |
-    <a href=""> Books</a> |
-    <a href=""> Authors</a> |
-    <a href=""> Publishers</a> |
-    <a href=""> Storeis</a>
-</navi></h2>
+<h2>
+    <navi>
+        <a href="{% url 'polls_home' %}"> Home </a> |
+        <a href="{% url 'book_list' %}"> Books </a> |
+        <a href=""> Authors </a> |
+        <a href=""> Publishers </a> |
+        <a href=""> Storeis </a>
+    </navi>
+</h2>
 {% block content %}{% endblock %}
 </body>
 </html>

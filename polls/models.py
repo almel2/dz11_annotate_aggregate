@@ -13,7 +13,7 @@ class Publisher(models.Model):
     name = models.CharField(max_length=150)
 
     def __str__(self):
-        return f'Author - {self.name}'
+        return f'Publisher - {self.name}'
 
 
 class Book(models.Model):

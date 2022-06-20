@@ -1,0 +1,22 @@
+{% extends 'polls/base.html' %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+    <h1>Books list page</h1>
+    {% for book in books %}
+        <ul>
+            <li>
+                Book - {{ book.name }},
+                Rating - {{ book.rating }},
+                Authors,
+                Publisher - {{ book.publisher.name }},
+                Store - {{ book.store_set }},
+                Pubdate - {{ book.pubdate }}
+            </li>
+        </ul>
+    {% endfor %}
+
+{% endblock %}
