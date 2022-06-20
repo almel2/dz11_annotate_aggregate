@@ -1,9 +1,7 @@
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from faker import Faker
 from random import randint, choice
 from polls.models import Author, Publisher, Book, Store
-
-
 
 
 class Command(BaseCommand):
@@ -15,7 +13,6 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         fake = Faker()
         num = options['count_date']
-        print(num)
 
         list_obj_author = []
         for _ in range(num):
@@ -58,3 +55,6 @@ class Command(BaseCommand):
         for store in Store.objects.all():
             random_books_id = set([choice(dooks_id) for _ in range(randint(1, 10))])
             store.book.add(*random_books_id)
+
+        length = len(authors_id)
+        self.stdout.write(self.style.SUCCESS(f'Success create date count {length}'))
