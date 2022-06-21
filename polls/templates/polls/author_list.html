@@ -1,0 +1,24 @@
+{% extends 'polls/base.html' %}
+
+{% block title %}
+    Authors
+{% endblock %}
+
+{% block content %}
+    <h1>Author list page</h1>
+    <ul>
+
+        {% for author in authors %}
+            <li>
+                Author - {{ author.name }},
+                Age - {{ author.age }},
+                Books - {% for book in author.book_set.all %}
+                {{ book.name }},
+            {% endfor %}
+            </li>
+            <br>
+        {% endfor %}
+
+    </ul>
+
+{% endblock %}
