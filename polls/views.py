@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Book, Author, Store
+from .models import Book, Author, Store, Publisher
 
 
 def index(request):
@@ -52,3 +52,19 @@ def store_detaile(request, pk_store):
         'store': store,
     }
     return render(request, 'polls/store_detaile.html', context)
+
+
+def publisher_list(request):
+    publishers = Publisher.objects.all()[:100]
+    context = {
+        'publishers': publishers,
+    }
+    return render(request, 'polls/publisher_list.html', context)
+
+
+def publisher_detaile(request, pk_publisher):
+    pubkisher = get_object_or_404(Publisher, pk=pk_publisher)
+    context = {
+        'publisher': pubkisher,
+    }
+    return render(request, 'polls/publisher_detaile.html', context)

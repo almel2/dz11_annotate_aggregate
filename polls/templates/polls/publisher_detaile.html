@@ -1,0 +1,15 @@
+{% extends 'polls/base.html' %}
+
+{% block title %}
+    Publisher - {{ publisher.name }}
+{% endblock %}
+
+{% block content %}
+    <h1>publisher deteile page</h1>
+    <h2><ul>
+        Publisher - {{ publisher.name }}
+        Books - {% for book in publisher.book_set.all %}
+                    {{ book.name }}
+                {% endfor %}
+    </ul></h2>
+{% endblock %}

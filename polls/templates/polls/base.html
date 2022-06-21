@@ -10,8 +10,9 @@
         <a href="{% url 'polls_home' %}"> Home </a> |
         <a href="{% url 'book_list' %}"> Books </a> |
         <a href="{% url 'author_list' %}"> Authors </a> |
-        <a href=""> Publishers </a> |
-        <a href="{% url 'store_list' %}"> Storeis </a>
+        <a href="{% url 'publisher_list' %}"> Publishers </a> |
+        <a href="{% url 'store_list' %}"> Storeis </a> |
+        <a href="/admin/"> Admin </a>
     </navi>
 </h2>
 {% block content %}{% endblock %}
