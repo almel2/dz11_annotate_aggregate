@@ -1,0 +1,20 @@
+{% extends 'polls/base.html' %}
+
+{% block title %}
+    Store
+{% endblock %}
+
+{% block content %}
+    <h1>Store list page</h1>
+    <ul>
+        {% for store in storeis %}
+            <li>
+                Store - <a href="{% url 'store_detaile' store.id %}">{{ store.name }}</a>,
+                Books - {% for book in store.book.all %}
+                {{ book.name }},
+            {% endfor %}
+                <br>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

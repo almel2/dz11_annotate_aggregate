@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Book, Author
+from .models import Book, Author, Store
 
 
 def index(request):
@@ -33,6 +33,22 @@ def author_list(request):
 def authors_detaile(request, pk_author):
     author = get_object_or_404(Author, pk=pk_author)
     context = {
-        'author': author
+        'author': author,
     }
     return render(request, 'polls/author_detaile.html', context)
+
+
+def store_list(request):
+    storeis = Store.objects.all()[:100]
+    contxt = {
+        'storeis': storeis,
+    }
+    return render(request, 'polls/store_list.html', contxt)
+
+
+def store_detaile(request, pk_store):
+    store = get_object_or_404(Store, pk=pk_store)
+    context = {
+        'store': store,
+    }
+    return render(request, 'polls/store_detaile.html', context)

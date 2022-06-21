@@ -1,0 +1,17 @@
+{% extends 'polls/base.html' %}
+
+{% block title %}
+    Authors
+{% endblock %}
+
+{% block content %}
+    <h1>Store detaile page</h1>
+    <h2><ul>
+        <li>
+            Store - {{ store.name }}
+            Books - {% for book in store.book.all %}
+                {{ book.name }}
+            {% endfor %}
+        </li>
+    </ul></h2>
+{% endblock %}
