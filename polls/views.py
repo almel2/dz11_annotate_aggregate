@@ -7,7 +7,7 @@ def index(request):
 
 
 def book_list(request):
-    books = Book.objects.all()[:100]
+    books = Book.objects.select_related('publisher').prefetch_related('authors').all()
     context = {
         'books': books,
     }
@@ -23,7 +23,8 @@ def book_detaile(request, pk_book):
 
 
 def author_list(request):
-    authors = Author.objects.all()[:100]
+    #authors = Author.objects.all()
+    authors = Author.objects.prefetch_related('book_set').all()
     context = {
         'authors': authors,
     }
@@ -39,7 +40,8 @@ def authors_detaile(request, pk_author):
 
 
 def store_list(request):
-    storeis = Store.objects.all()[:100]
+    #storeis = Store.objects.all().iterator()
+    storeis = Store.objects.prefetch_related('book').all()
     contxt = {
         'storeis': storeis,
     }
@@ -55,7 +57,8 @@ def store_detaile(request, pk_store):
 
 
 def publisher_list(request):
-    publishers = Publisher.objects.all()[:100]
+    # publishers = Publisher.objects.all()[:100]
+    publishers = Publisher.objects.prefetch_related('book_set')
     context = {
         'publishers': publishers,
     }

@@ -11,7 +11,9 @@
             <li>
                 Book - <a href="{% url 'polls_book_detaile' book.id %}">{{ book.name }}</a>,
                 Rating - {{ book.rating }},
-                Authors - {{ book.authors }}
+                Authors - {% for author in book.authors.all %}
+                {{ author.name }},
+                {% endfor %}
                 Publisher - {{ book.publisher.name }}
                 Store - {{ book.store_set }},
                 Pubdate - {{ book.pubdate }}
