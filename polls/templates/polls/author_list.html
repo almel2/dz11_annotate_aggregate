@@ -10,7 +10,7 @@
 
         {% for author in authors %}
             <li>
-                Author - {{ author.name }},
+                Author - <a href="{% url 'author_detaile' author.id %}">{{ author.name }}</a>,
                 Age - {{ author.age }},
                 Books - {% for book in author.book_set.all %}
                 {{ book.name }},

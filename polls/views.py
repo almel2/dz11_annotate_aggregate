@@ -13,6 +13,7 @@ def book_list(request):
     }
     return render(request, 'polls/book_list.html', context)
 
+
 def book_detaile(request, pk_book):
     book = get_object_or_404(Book, pk=pk_book)
     context = {
@@ -22,8 +23,16 @@ def book_detaile(request, pk_book):
 
 
 def author_list(request):
-    authors = Author.objects.all()
+    authors = Author.objects.all()[:100]
     context = {
         'authors': authors,
     }
     return render(request, 'polls/author_list.html', context)
+
+
+def authors_detaile(request, pk_author):
+    author = get_object_or_404(Author, pk=pk_author)
+    context = {
+        'author': author
+    }
+    return render(request, 'polls/author_detaile.html', context)
