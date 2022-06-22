@@ -6,4 +6,16 @@
 
 {% block content %}
     <h1>Home page</h1>
+    <br>
+    <ul>
+        <h2>All books - {{ agg.id__count }}</h2>
+        <h2>Max rating - {{ agg.rating__max }}</h2>
+        <h2>Max price - {{ agg.price__max }} </h2>
+        <h2>Avg price - {{ agg.price__avg }}</h2>
+        <br>
+        <h2>Count authors - {% for i in ann %}
+            {{ i }} authors = {{ i.authors__count }},
+        {% endfor %}
+        </h2>
+    </ul>
 {% endblock %}

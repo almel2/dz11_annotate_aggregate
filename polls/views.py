@@ -1,9 +1,17 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Book, Author, Store, Publisher
+from django.db.models import Avg, Max, Count
 
 
 def index(request):
-    return render(request, 'polls/index.html')
+    books = Book.objects.all()
+    agg = books.aggregate(Max('rating'), Max('price'), Avg('price'), Count('id'))
+    ann = books.annotate(Count('authors'))
+    context = {
+        'agg': agg,
+        'ann': ann,
+    }
+    return render(request, 'polls/index.html', context)
 
 
 def book_list(request):
@@ -23,7 +31,7 @@ def book_detaile(request, pk_book):
 
 
 def author_list(request):
-    #authors = Author.objects.all()
+    #  authors = Author.objects.all()
     authors = Author.objects.prefetch_related('book_set').all()
     context = {
         'authors': authors,
@@ -40,7 +48,7 @@ def authors_detaile(request, pk_author):
 
 
 def store_list(request):
-    #storeis = Store.objects.all().iterator()
+    #  storeis = Store.objects.all().iterator()
     storeis = Store.objects.prefetch_related('book').all()
     contxt = {
         'storeis': storeis,
@@ -57,7 +65,7 @@ def store_detaile(request, pk_store):
 
 
 def publisher_list(request):
-    # publishers = Publisher.objects.all()[:100]
+    #  publishers = Publisher.objects.all()[:100]
     publishers = Publisher.objects.prefetch_related('book_set')
     context = {
         'publishers': publishers,
