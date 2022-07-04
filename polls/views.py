@@ -6,7 +6,7 @@ from django.db.models import Avg, Max, Count
 def index(request):
     books = Book.objects.all()
     agg = books.aggregate(Max('rating'), Max('price'), Avg('price'), Count('id'))
-    ann = books.annotate(Count('authors'))
+    ann = books.annotate(Count('publisher'))
     context = {
         'agg': agg,
         'ann': ann,
