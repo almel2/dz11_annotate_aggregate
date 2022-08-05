@@ -38,9 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'debug_toolbar',
     'django_extensions',
     'django_celery_results',
+    'django_celery_beat',
 
     'polls.apps.PollsConfig',
     'celery_app.apps.CeleryAppConfig',
@@ -88,6 +90,12 @@ DATABASES = {
     }
 }
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'my_cache_table',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -138,9 +146,12 @@ INTERNAL_IPS = [
 
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
-# CELERY_RESULT_BACKEND = 'django_db'
+#  CELERY_RESULT_BACKEND = 'django_db'
+#  CELERY_CACHE_BACKEND = 'default'
 CELERY_BROKER_URL = 'amqp://localhost'
+
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALLIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
+
