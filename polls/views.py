@@ -1,6 +1,21 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from .forms import AddStoreForm
 from .models import Book, Author, Store, Publisher
 from django.db.models import Avg, Max, Count
+from django.views.generic import ListView, DetailView
+
+
+class Index(ListView):
+    model = Book
+    template_name = 'polls/index.html'
+    context_object_name = 'books'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['agg'] = Book.objects.all().aggregate(Max('rating'), Max('price'), Avg('price'), Count('id'))
+        context['ann'] = Book.objects.all().annotate(Count('publisher'))
+        return context
 
 
 def index(request):
@@ -14,68 +29,163 @@ def index(request):
     return render(request, 'polls/index.html', context)
 
 
-def book_list(request):
-    books = Book.objects.select_related('publisher').prefetch_related('authors').all()
+class BookList(ListView):
+    model = Book
+    template_name = 'polls/book_list.html'
+    context_object_name = 'books'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['books'] = Book.objects.select_related('publisher').prefetch_related('authors').all()
+        return context
+
+
+#  def book_list(request):
+#      books = Book.objects.select_related('publisher').prefetch_related('authors').all()
+#      context = {
+#          'books': books,
+#      }
+#      return render(request, 'polls/book_list.html', context)
+
+
+class BookDetaile(DetailView):
+    model = Book
+    template_name = 'polls/book_detaile.html'
+    pk_url_kwarg = 'pk_book'
+
+
+# def book_detaile(request, pk_book):
+#     book = get_object_or_404(Book, pk=pk_book)
+#     context = {
+#         'book': book,
+#     }
+#     return render(request, 'polls/book_detaile.html', context)
+
+
+class AuthorsList(ListView):
+    model = Author
+    template_name = 'polls/author_list.html'
+    context_object_name = 'authors'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['authors'] = Author.objects.prefetch_related('book_set').all()
+        return context
+
+
+#  def author_list(request):
+#      #  authors = Author.objects.all()
+#      authors = Author.objects.prefetch_related('book_set').all()
+#      context = {
+#          'authors': authors,
+#      }
+#      return render(request, 'polls/author_list.html', context)
+
+
+class AuthorDetaile(DetailView):
+    model = Author
+    template_name = 'polls/author_detaile.html'
+    pk_url_kwarg = 'pk_author'
+
+
+# def authors_detaile(request, pk_author):
+#     author = get_object_or_404(Author, pk=pk_author)
+#     context = {
+#         'author': author,
+#     }
+#     return render(request, 'polls/author_detaile.html', context)
+
+
+class StoreList(ListView):
+    model = Store
+    template_name = 'polls/store_list.html'
+    context_object_name = 'storeis'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['storeis'] = Store.objects.prefetch_related('book').all()
+        return context
+
+
+# def store_list(request):
+#     #  storeis = Store.objects.all().iterator()
+#     storeis = Store.objects.prefetch_related('book').all()
+#     contxt = {
+#         'storeis': storeis,
+#     }
+#     return render(request, 'polls/store_list.html', contxt)
+
+
+class StoreDetaile(DetailView):
+    model = Store
+    template_name = 'polls/store_detaile.html'
+    pk_url_kwarg = 'pk_store'
+
+
+# def store_detaile(request, pk_store):
+#     store = get_object_or_404(Store, pk=pk_store)
+#     context = {
+#         'store': store,
+#     }
+#     return render(request, 'polls/store_detaile.html', context)
+
+
+class PublisherList(ListView):
+    model = Publisher
+    template_name = 'polls/publisher_list.html'
+    context_object_name = 'publishers'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['publishers'] = Publisher.objects.prefetch_related('book_set')
+        return context
+
+
+# def publisher_list(request):
+#     # publishers = Publisher.objects.all()[:100]
+#     publishers = Publisher.objects.prefetch_related('book_set')
+#     # publishers = Publisher.objects.select_related('book_set')
+#     context = {
+#         'publishers': publishers,
+#     }
+#     return render(request, 'polls/publisher_list.html', context)
+
+
+class PublisherDetaile(DetailView):
+    model = Publisher
+    template_name = 'polls/publisher_detaile.html'
+    pk_url_kwarg = 'pk_publisher'
+
+
+# def publisher_detaile(request, pk_publisher):
+#     pubkisher = get_object_or_404(Publisher, pk=pk_publisher)
+#     context = {
+#         'publisher': pubkisher,
+#     }
+#     return render(request, 'polls/publisher_detaile.html', context)
+
+
+@login_required(login_url='/admin/login/')
+def store_add(request):
+    if request.method == 'POST':
+        form = AddStoreForm(request.POST)
+        if form.is_valid():
+            name_store = form.cleaned_data['name']
+            book_objects = form.cleaned_data['book']
+            try:
+                store_obj = Store.objects.create(name=name_store)
+                store_obj.book.add(*book_objects)
+
+                return redirect('success')
+            except:
+                form.add_error(None, 'Error create object')
+    else:
+        form = AddStoreForm()
     context = {
-        'books': books,
+        'form': form,
     }
-    return render(request, 'polls/book_list.html', context)
+    return render(request, 'polls/store_add_form.html', context)
 
 
-def book_detaile(request, pk_book):
-    book = get_object_or_404(Book, pk=pk_book)
-    context = {
-        'book': book,
-    }
-    return render(request, 'polls/book_detaile.html', context)
-
-
-def author_list(request):
-    #  authors = Author.objects.all()
-    authors = Author.objects.prefetch_related('book_set').all()
-    context = {
-        'authors': authors,
-    }
-    return render(request, 'polls/author_list.html', context)
-
-
-def authors_detaile(request, pk_author):
-    author = get_object_or_404(Author, pk=pk_author)
-    context = {
-        'author': author,
-    }
-    return render(request, 'polls/author_detaile.html', context)
-
-
-def store_list(request):
-    #  storeis = Store.objects.all().iterator()
-    storeis = Store.objects.prefetch_related('book').all()
-    contxt = {
-        'storeis': storeis,
-    }
-    return render(request, 'polls/store_list.html', contxt)
-
-
-def store_detaile(request, pk_store):
-    store = get_object_or_404(Store, pk=pk_store)
-    context = {
-        'store': store,
-    }
-    return render(request, 'polls/store_detaile.html', context)
-
-
-def publisher_list(request):
-    #  publishers = Publisher.objects.all()[:100]
-    publishers = Publisher.objects.prefetch_related('book_set')
-    context = {
-        'publishers': publishers,
-    }
-    return render(request, 'polls/publisher_list.html', context)
-
-
-def publisher_detaile(request, pk_publisher):
-    pubkisher = get_object_or_404(Publisher, pk=pk_publisher)
-    context = {
-        'publisher': pubkisher,
-    }
-    return render(request, 'polls/publisher_detaile.html', context)
+def success(request):
+    return render(request, 'polls/success.html', {})

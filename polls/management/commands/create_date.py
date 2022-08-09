@@ -8,11 +8,11 @@ class Command(BaseCommand):
     help = 'This command create date, has one argument "count_date"'
 
     def add_arguments(self, parser):
-        parser.add_argument('count_date', type=int)
+        parser.add_argument('count_data', type=int)
 
     def handle(self, *args, **options):
         fake = Faker()
-        num = options['count_date']
+        num = options['count_data']
 
         list_obj_author = []
         for _ in range(num):

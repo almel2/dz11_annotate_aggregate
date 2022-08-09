@@ -14,7 +14,7 @@ def reminder(request):
             send_mail_reminder.apply_async(('Alex_primer', reminder, [email, ]), eta=detetime)
             messages.success(request, 'Reminder cool done !!')
             messages.add_message(request, messages.SUCCESS, 'Reminder Done')
-            return redirect('celery_reminder')
+            return redirect('home')
     else:
         form = ReminderForm()
     return render(request, 'celery_app/reminder.html', {'form': form})
