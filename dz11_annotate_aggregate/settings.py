@@ -43,7 +43,9 @@ INSTALLED_APPS = [
     'django_extensions',
     'django_celery_results',
     'django_celery_beat',
+    'crispy_forms',
 
+    'accounts.apps.AccountsConfig',
     'polls.apps.PollsConfig',
     'celery_app.apps.CeleryAppConfig',
 ]
@@ -154,4 +156,6 @@ CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALLIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 

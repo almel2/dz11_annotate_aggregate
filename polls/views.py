@@ -165,7 +165,7 @@ class PublisherDetaile(DetailView):
 #     return render(request, 'polls/publisher_detaile.html', context)
 
 
-@login_required(login_url='/admin/login/')
+@login_required(login_url='/accounts/login/')
 def store_add(request):
     if request.method == 'POST':
         form = AddStoreForm(request.POST)
