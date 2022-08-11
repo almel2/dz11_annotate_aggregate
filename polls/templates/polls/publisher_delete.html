@@ -1,0 +1,13 @@
+{% extends 'polls/base.html' %}
+
+{% block title %}
+    Delete publisher
+{% endblock %}
+
+{% block content %}
+    <form action="" method="post">
+    {% csrf_token %}
+    <h2>If you shure press Yes</h2>
+    <button type="submit">Yes</button> | <a href="{% url 'publisher_detaile' publisher.id %}">No</a>
+    </form>
+{% endblock %}

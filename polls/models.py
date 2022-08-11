@@ -12,6 +12,9 @@ class Author(models.Model):
 class Publisher(models.Model):
     name = models.CharField(max_length=150)
 
+    def get_absolute_url(self):
+        return reverse('publisher_detaile', kwargs={'pk_publisher': self.pk})
+
     def __str__(self):
         return f'Publisher - {self.name}'
 

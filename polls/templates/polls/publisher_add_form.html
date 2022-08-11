@@ -1,0 +1,12 @@
+{% extends 'polls/base.html' %}
+{% block title %}
+    Add publisher
+{% endblock %}
+
+{% block content %}
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Send</button>
+    </form>
+{% endblock %}

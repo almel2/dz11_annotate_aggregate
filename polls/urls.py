@@ -29,7 +29,9 @@ urlpatterns = [
     # path('publisher/<int:pk_publisher>/', views.publisher_detaile, name='publisher_detaile'),
     path('publisher/', views.PublisherList.as_view(), name='publisher_list'),
     # path('publisher/', views.publisher_list, name='publisher_list'),
-
+    path('publisher-add/', views.PublisherAdd.as_view(), name='publisher_add_form'),
+    path('publisher-update/<int:pk_publisher>/', views.PublisherUpdate.as_view(), name='publisher_update'),
+    path('publisher-delete/<int:pk_publisher>/', views.PublisherDelete.as_view(), name='publisher_delete'),
 
     path('success/', views.success, name='success'),
 ]

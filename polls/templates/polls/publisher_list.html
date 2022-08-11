@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Publisher list page</h1>
+    <h1>Publisher list page | <a href="{% url 'publisher_add_form' %}"> Add publisher</a></h1>
     <ul>
         {% for publisher in publishers %}
             <li>

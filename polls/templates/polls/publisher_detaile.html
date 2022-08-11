@@ -5,7 +5,8 @@
 {% endblock %}
 
 {% block content %}
-    <h1>publisher deteile page</h1>
+    <h1>publisher deteile page | <a href="{% url 'publisher_update' publisher.id %}">Update publisher</a> |
+        <a href="{% url 'publisher_delete' publisher.id%}"> Delete publisher</a></h1>
     <h2><ul>
         Publisher - {{ publisher.name }}
         Books - {% for book in publisher.book_set.all %}

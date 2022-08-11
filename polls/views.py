@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 
-from .forms import AddStoreForm
+from .forms import AddStoreForm, PublisherAddForm
 from .models import Book, Author, Store, Publisher
 from django.db.models import Avg, Max, Count
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
@@ -134,6 +134,26 @@ class StoreDetaile(DetailView):
 #     return render(request, 'polls/store_detaile.html', context)
 
 
+class StoreAdd(LoginRequiredMixin, CreateView):
+    model = Store
+    form_class = AddStoreForm
+    template_name = 'polls/store_add_form.html'
+
+
+class StoreUpdate(LoginRequiredMixin, UpdateView):
+    model = Store
+    form_class = AddStoreForm
+    template_name = 'polls/store_add_form.html'
+    pk_url_kwarg = 'pk_store'
+
+
+class StoreDelete(LoginRequiredMixin, DeleteView):
+    model = Store
+    pk_url_kwarg = 'pk_store'
+    template_name = 'polls/store_delete.html'
+    success_url = reverse_lazy('store_list')
+
+
 class PublisherList(ListView):
     model = Publisher
     template_name = 'polls/publisher_list.html'
@@ -191,24 +211,23 @@ class PublisherDetaile(DetailView):
 #     return render(request, 'polls/store_add_form.html', context)
 
 
-class StoreAdd(LoginRequiredMixin, CreateView):
-    model = Store
-    form_class = AddStoreForm
-    template_name = 'polls/store_add_form.html'
+class PublisherAdd(LoginRequiredMixin, CreateView):
+    model = Publisher
+    form_class = PublisherAddForm
+    template_name = 'polls/publisher_add_form.html'
 
 
-class StoreUpdate(UpdateView):
-    model = Store
-    form_class = AddStoreForm
-    template_name = 'polls/store_add_form.html'
-    pk_url_kwarg = 'pk_store'
+class PublisherUpdate(LoginRequiredMixin, UpdateView):
+    model = Publisher
+    form_class = PublisherAddForm
+    template_name = 'polls/publisher_add_form.html'
+    pk_url_kwarg = 'pk_publisher'
 
-
-class StoreDelete(DeleteView):
-    model = Store
-    pk_url_kwarg = 'pk_store'
-    template_name = 'polls/store_delete.html'
-    success_url = reverse_lazy('store_list')
+class PublisherDelete(LoginRequiredMixin, DeleteView):
+    model = Publisher
+    template_name = 'polls/publisher_delete.html'
+    pk_url_kwarg = 'pk_publisher'
+    success_url = reverse_lazy('publisher_list')
 
 
 def success(request):
