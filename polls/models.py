@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.urls import reverse
 
 class Author(models.Model):
     name = models.CharField(max_length=150)
@@ -32,6 +32,9 @@ class Book(models.Model):
 class Store(models.Model):
     name = models.CharField(max_length=150)
     book = models.ManyToManyField('polls.Book')
+
+    def get_absolute_url(self):
+        return reverse('store_detaile', kwargs={'pk_store': self.pk})
 
     def __str__(self):
         return f'Store - {self.name}'

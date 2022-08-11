@@ -12,7 +12,6 @@
         <a href="{% url 'author_list' %}"> Authors </a> |
         <a href="{% url 'publisher_list' %}"> Publishers </a> |
         <a href="{% url 'store_list' %}"> Storeis </a> |
-        <a href="{% url 'store_add_form' %}"> Store form </a> |
         <a href="/admin/"> Admin </a> |
         {% if not request.user.is_authenticated %}
         <a href="{% url 'login' %}"> Login </a> |

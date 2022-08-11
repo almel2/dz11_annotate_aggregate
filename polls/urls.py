@@ -20,14 +20,16 @@ urlpatterns = [
     # path('store/<int:pk_store>/', views.store_detaile, name='store_detaile'),
     path('store/', views.StoreList.as_view(), name='store_list'),
     # path('store/', views.store_list, name='store_list'),
+    #path('store-add/', views.store_add, name='store_add_form'),
+    path('store-add/', views.StoreAdd.as_view(), name='store_add_form'),
+    path('store-update/<int:pk_store>/', views.StoreUpdate.as_view(), name='store_update'),
+    path('store-delete/<int:pk_store>/', views.StoreDelete.as_view(), name='store_delete'),
 
     path('publisher/<int:pk_publisher>/', views.PublisherDetaile.as_view(), name='publisher_detaile'),
     # path('publisher/<int:pk_publisher>/', views.publisher_detaile, name='publisher_detaile'),
     path('publisher/', views.PublisherList.as_view(), name='publisher_list'),
     # path('publisher/', views.publisher_list, name='publisher_list'),
-    path('store-add/', views.store_add, name='store_add_form'),
+
 
     path('success/', views.success, name='success'),
-
-    path('accounts/login/', auth_views.LoginView.as_view()),
 ]

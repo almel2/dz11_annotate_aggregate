@@ -1,0 +1,13 @@
+{% extends 'polls/base.html' %}
+
+{% block title %}
+
+{% endblock %}
+
+{{% block content %}
+    <form action="" method="post">
+    {% csrf_token %}
+    <h2>if you shure press YES</h2>
+    <button type="submit"> YES </button> | <a href="/store/"> No </a>
+    </form>
+{% endblock %}

@@ -1,9 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
+
 from .forms import AddStoreForm
 from .models import Book, Author, Store, Publisher
 from django.db.models import Avg, Max, Count
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 
 
 class Index(ListView):
@@ -18,15 +21,15 @@ class Index(ListView):
         return context
 
 
-def index(request):
-    books = Book.objects.all()
-    agg = books.aggregate(Max('rating'), Max('price'), Avg('price'), Count('id'))
-    ann = books.annotate(Count('publisher'))
-    context = {
-        'agg': agg,
-        'ann': ann,
-    }
-    return render(request, 'polls/index.html', context)
+# def index(request):
+#     books = Book.objects.all()
+#     agg = books.aggregate(Max('rating'), Max('price'), Avg('price'), Count('id'))
+#     ann = books.annotate(Count('publisher'))
+#     context = {
+#         'agg': agg,
+#         'ann': ann,
+#     }
+#     return render(request, 'polls/index.html', context)
 
 
 class BookList(ListView):
@@ -100,11 +103,12 @@ class StoreList(ListView):
     model = Store
     template_name = 'polls/store_list.html'
     context_object_name = 'storeis'
+    paginate_by = 10
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['storeis'] = Store.objects.prefetch_related('book').all()
-        return context
+    #def get_context_data(self, *, object_list=None, **kwargs):
+    #    context = super().get_context_data(**kwargs)
+    #    context['storeis'] = Store.objects.prefetch_related('book').all()
+    #    return context
 
 
 # def store_list(request):
@@ -165,26 +169,46 @@ class PublisherDetaile(DetailView):
 #     return render(request, 'polls/publisher_detaile.html', context)
 
 
-@login_required(login_url='/accounts/login/')
-def store_add(request):
-    if request.method == 'POST':
-        form = AddStoreForm(request.POST)
-        if form.is_valid():
-            name_store = form.cleaned_data['name']
-            book_objects = form.cleaned_data['book']
-            try:
-                store_obj = Store.objects.create(name=name_store)
-                store_obj.book.add(*book_objects)
+# @login_required(login_url='/accounts/login/')
+# def store_add(request):
+#     if request.method == 'POST':
+#         form = AddStoreForm(request.POST)
+#         if form.is_valid():
+#             name_store = form.cleaned_data['name']
+#             book_objects = form.cleaned_data['book']
+#             try:
+#                 store_obj = Store.objects.create(name=name_store)
+#                 store_obj.book.add(*book_objects)
+#
+#                 return redirect('success')
+#             except:
+#                 form.add_error(None, 'Error create object')
+#     else:
+#         form = AddStoreForm()
+#     context = {
+#         'form': form,
+#     }
+#     return render(request, 'polls/store_add_form.html', context)
 
-                return redirect('success')
-            except:
-                form.add_error(None, 'Error create object')
-    else:
-        form = AddStoreForm()
-    context = {
-        'form': form,
-    }
-    return render(request, 'polls/store_add_form.html', context)
+
+class StoreAdd(LoginRequiredMixin, CreateView):
+    model = Store
+    form_class = AddStoreForm
+    template_name = 'polls/store_add_form.html'
+
+
+class StoreUpdate(UpdateView):
+    model = Store
+    form_class = AddStoreForm
+    template_name = 'polls/store_add_form.html'
+    pk_url_kwarg = 'pk_store'
+
+
+class StoreDelete(DeleteView):
+    model = Store
+    pk_url_kwarg = 'pk_store'
+    template_name = 'polls/store_delete.html'
+    success_url = reverse_lazy('store_list')
 
 
 def success(request):
