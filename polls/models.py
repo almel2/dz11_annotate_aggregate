@@ -1,7 +1,11 @@
 from django.db import models
 from django.urls import reverse
 
-class Author(models.Model):
+class MyMeta:
+    class Meta:
+        ordering = ['id']
+
+class Author(models.Model, MyMeta):
     name = models.CharField(max_length=150)
     age = models.IntegerField()
 
@@ -9,7 +13,7 @@ class Author(models.Model):
         return self.name
 
 
-class Publisher(models.Model):
+class Publisher(models.Model, MyMeta):
     name = models.CharField(max_length=150)
 
     def get_absolute_url(self):
@@ -19,7 +23,7 @@ class Publisher(models.Model):
         return f'Publisher - {self.name}'
 
 
-class Book(models.Model):
+class Book(models.Model, MyMeta):
     name = models.CharField(max_length=150)
     page = models.IntegerField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -32,7 +36,7 @@ class Book(models.Model):
         return f'Book - {self.name}'
 
 
-class Store(models.Model):
+class Store(models.Model, MyMeta):
     name = models.CharField(max_length=150)
     book = models.ManyToManyField('polls.Book')
 
