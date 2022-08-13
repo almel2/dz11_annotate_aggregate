@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from django.contrib.auth import views as auth_views
+from django.views.decorators.cache import cache_page
 
 urlpatterns = [
     path('', views.Index.as_view(), name='polls_home'),
@@ -13,12 +13,12 @@ urlpatterns = [
 
     path('author/<int:pk_author>/', views.AuthorDetaile.as_view(), name='author_detaile'),
     # path('author/<int:pk_author>/', views.authors_detaile, name='author_detaile'),
-    path('author/', views.AuthorsList.as_view(), name='author_list'),
+    path('author/', cache_page(10)(views.AuthorsList.as_view()), name='author_list'),
     # path('author/', views.author_list, name='author_list'),
 
     path('store/<int:pk_store>/', views.StoreDetaile.as_view(), name='store_detaile'),
     # path('store/<int:pk_store>/', views.store_detaile, name='store_detaile'),
-    path('store/', views.StoreList.as_view(), name='store_list'),
+    path('store/', cache_page(10)(views.StoreList.as_view()), name='store_list'),
     # path('store/', views.store_list, name='store_list'),
     #path('store-add/', views.store_add, name='store_add_form'),
     path('store-add/', views.StoreAdd.as_view(), name='store_add_form'),
@@ -27,7 +27,7 @@ urlpatterns = [
 
     path('publisher/<int:pk_publisher>/', views.PublisherDetaile.as_view(), name='publisher_detaile'),
     # path('publisher/<int:pk_publisher>/', views.publisher_detaile, name='publisher_detaile'),
-    path('publisher/', views.PublisherList.as_view(), name='publisher_list'),
+    path('publisher/', cache_page(10)(views.PublisherList.as_view()), name='publisher_list'),
     # path('publisher/', views.publisher_list, name='publisher_list'),
     path('publisher-add/', views.PublisherAdd.as_view(), name='publisher_add_form'),
     path('publisher-update/<int:pk_publisher>/', views.PublisherUpdate.as_view(), name='publisher_update'),
