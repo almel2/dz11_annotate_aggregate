@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis
+    restart: always
+
+  web:
+    container_name: django
+    build: .
+    ports:
+      - "8000:8000"
+

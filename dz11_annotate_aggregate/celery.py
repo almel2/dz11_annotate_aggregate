@@ -15,11 +15,12 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'test_beat': {
         'task': 'celery_app.tasks.parser',
-        'schedule': crontab(minute='*/1'),
+        'schedule': crontab(hour=7, minute=30, day_of_week=1),
     },
-     #  'test_beat': {
-     #          'task': 'celery_app.tasks.send_mail_reminder',
-     #          'schedule': crontab(minute='*/1'),
-     #      }
+
+    'test_beat': {
+            'task': 'celery_app.tasks.send_mail_reminder',
+            'schedule': crontab(minute='*/1'),
+        },
 }
 

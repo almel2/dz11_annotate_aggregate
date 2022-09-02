@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-=ttxq)2qlj(lfe
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -99,6 +99,19 @@ DATABASES = {
 #     }
 # }
 
+
+# redis cache
+
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": 'redis://redis:6379/',
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#         }
+#     },
+# }
+
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
@@ -156,6 +169,8 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
+# celery
+
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
 #  CELERY_RESULT_BACKEND = 'django_db'
@@ -167,5 +182,5 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALLIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 
