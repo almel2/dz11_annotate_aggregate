@@ -12,7 +12,7 @@ def add(x=1, y=1):
 
 
 @shared_task()
-def send_mail_reminder(subject, messages, recipient_list, from_email='exemple@gmail.com'):
+def send_mail_reminder(subject='alex_defolt', messages='messages_defolt', recipient_list=['alex@gmail.com',], from_email='exemple@gmail.com'):
     send_mail(subject, messages, from_email=from_email, recipient_list=recipient_list)
 
 
