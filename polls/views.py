@@ -16,7 +16,7 @@ class Index(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['agg'] = Book.objects.all().aggregate(Max('rating'), Max('price'), Avg('price'), Count('id'))
+        context['agg'] = Book.objects.all().aggregate(Max('rating'), Max('price'), Avg('price'))
         context['ann'] = Book.objects.all().annotate(Count('publisher'))
         return context
 
