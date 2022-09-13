@@ -13,9 +13,10 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
 
 app.conf.beat_schedule = {
-    'test_beat': {
+    'parser': {
         'task': 'celery_app.tasks.parser',
-        'schedule': crontab(hour=7, minute=30, day_of_week=1),
+        'schedule': crontab(minute="*/1"),
+        #'schedule': crontab(hour=7, minute=30, day_of_week=1),
     },
 
     # 'test_beat': {

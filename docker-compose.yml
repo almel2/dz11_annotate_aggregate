@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   redis:
+    container_name: redis
     image: redis
     restart: always
 
@@ -12,9 +13,11 @@ services:
       - "8000:8000"
     env_file:
       - ./.env
-
+    depends_on:
+      - db
 
   db:
+    container_name: postgres_db
     image: postgres:13.3-alpine
     restart: always
     environment:
@@ -26,5 +29,36 @@ services:
     ports:
       - 5432:5432
 
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.9-alpine
+    restart: always
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+  celeryworker:
+    container_name: celeryworker
+    build: .
+    env_file:
+      - .env
+    volumes:
+      - ./:/web
+    command: celery -A dz11_annotate_aggregate worker -l info
+    depends_on:
+      - rabbitmq
+
+  celeryscheduler:
+    container_name: celeryscheduler
+    build: .
+    env_file:
+      - .env
+    volumes:
+      - ./:/web
+    command: celery -A dz11_annotate_aggregate beat -l info
+    depends_on:
+      - rabbitmq
+
+
 volumes:
   data_postgres:
+  rabbitmq_data:
