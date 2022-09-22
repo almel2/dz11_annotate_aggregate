@@ -16,6 +16,16 @@ services:
     depends_on:
       - db
 
+  nginx:
+    container_name: nginx
+    build: ./nginx
+    volumes:
+      - staticfiles:/app/static
+    ports:
+      - 8008:80
+    depends_on:
+      - web
+
   db:
     container_name: postgres_db
     image: postgres:13.3-alpine

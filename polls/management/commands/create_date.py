@@ -5,7 +5,7 @@ from polls.models import Author, Publisher, Book, Store
 
 
 class Command(BaseCommand):
-    help = 'This command create date, has one argument "count_date"'
+    help = 'This command create data, has one argument "count_data"'
 
     def add_arguments(self, parser):
         parser.add_argument('count_data', type=int)
